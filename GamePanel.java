@@ -61,18 +61,26 @@ public class GamePanel extends JPanel implements KeyListener {
 
 
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
 
-        player.draw(g);
-        for (Enemy enemy : enemies) {
-            enemy.draw(g);
-        }
-
-        if (gameOver) {
-            drawGameOver(g);
-        }
+    player.draw(g);
+    for (Enemy enemy : enemies) {
+        enemy.draw(g);
     }
+
+    drawScore(g);
+
+    if (gameOver) {
+        drawGameOver(g);
+    }
+}
+	private void drawScore(Graphics g) {
+    g.setColor(Color.WHITE);
+    g.setFont(new Font("Arial", Font.PLAIN, 16));
+    g.drawString("Score: " + score, 10, 20);
+}
+
 
     private void drawGameOver(Graphics g) {
         g.setColor(Color.WHITE);

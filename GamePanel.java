@@ -59,6 +59,19 @@ public class GamePanel extends JPanel implements KeyListener {
     repaint();
 }
 
+private void resetGame() {
+    score = 0;
+    gameOver = false;
+
+    player = new Player(280, 330);
+
+    enemies.clear();
+    for (int i = 0; i < 5; i++) {
+        enemies.add(new Enemy(getWidth()));
+    }
+
+    timer.start();
+}
 
     @Override
 protected void paintComponent(Graphics g) {
@@ -83,21 +96,33 @@ protected void paintComponent(Graphics g) {
 
 
     private void drawGameOver(Graphics g) {
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 36));
-        g.drawString("GAME OVER", 180, 200);
-    }
+    g.setColor(Color.WHITE);
+    g.setFont(new Font("Arial", Font.BOLD, 36));
+    g.drawString("GAME OVER", 180, 180);
+
+    g.setFont(new Font("Arial", Font.PLAIN, 16));
+    g.drawString("Press R to Restart", 215, 210);
+}
+
 
     // Keyboard input
     @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
-            leftPressed = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
-            rightPressed = true;
-        }
+public void keyPressed(KeyEvent e) {
+
+    if (gameOver && e.getKeyCode() == KeyEvent.VK_R) {
+        resetGame();
+        return;
     }
+
+    if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+        leftPressed = true;
+    }
+
+    if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+        rightPressed = true;
+    }
+}
+
 
     @Override
     public void keyReleased(KeyEvent e) {

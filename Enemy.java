@@ -13,12 +13,11 @@ public class Enemy {
 
     public Enemy(int panelWidth) {
         reset(panelWidth);
-        y = -random.nextInt(300); // start above the screen
+        y = -random.nextInt(300);
     }
 
     public void update(int panelHeight, int panelWidth) {
         y += speed;
-
         if (y > panelHeight) {
             reset(panelWidth);
         }
@@ -29,8 +28,13 @@ public class Enemy {
         y = -height;
     }
 
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
+    }
+
     public void draw(Graphics g) {
         g.setColor(Color.RED);
         g.fillRect(x, y, width, height);
     }
 }
+

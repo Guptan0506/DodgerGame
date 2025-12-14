@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements KeyListener {
 
     Player player;
+    ArrayList<Enemy> enemies;
     Timer timer;
 
     boolean leftPressed = false;
@@ -16,10 +18,14 @@ public class GamePanel extends JPanel implements KeyListener {
 
         player = new Player(280, 330);
 
+        enemies = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            enemies.add(new Enemy(600));
+        }
+
         addKeyListener(this);
         setFocusable(true);
 
-        // Game loop: runs every 16ms (~60 FPS)
         timer = new Timer(16, e -> update());
         timer.start();
     }
@@ -31,13 +37,23 @@ public class GamePanel extends JPanel implements KeyListener {
         if (rightPressed) {
             player.moveRight(getWidth());
         }
-        repaint(); // redraw screen
+
+        for (Enemy enemy : enemies) {
+            enemy.update(getHeight(), getWidth());
+        }
+
+        repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         player.draw(g);
+
+        for (Enemy enemy : enemies) {
+            enemy.draw(g);
+        }
     }
 
     // Keyboard input
@@ -62,8 +78,5 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        // not used
-    }
+    public void keyTyped(KeyEvent e) {}
 }
-

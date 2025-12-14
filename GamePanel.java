@@ -9,6 +9,7 @@ public class GamePanel extends JPanel implements KeyListener {
     ArrayList<Enemy> enemies;
     Timer timer;
 
+	int score = 0;
     boolean leftPressed = false;
     boolean rightPressed = false;
     boolean gameOver = false;
@@ -32,29 +33,32 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     private void update() {
-        if (gameOver) {
-            return;
-        }
-
-        if (leftPressed) {
-            player.moveLeft();
-        }
-        if (rightPressed) {
-            player.moveRight(getWidth());
-        }
-
-        for (Enemy enemy : enemies) {
-            enemy.update(getHeight(), getWidth());
-
-            // COLLISION CHECK
-            if (player.getBounds().intersects(enemy.getBounds())) {
-                gameOver = true;
-                timer.stop();
-            }
-        }
-
-        repaint();
+    if (gameOver) {
+        return;
     }
+
+    // Increase score every frame
+    score++;
+
+    if (leftPressed) {
+        player.moveLeft();
+    }
+    if (rightPressed) {
+        player.moveRight(getWidth());
+    }
+
+    for (Enemy enemy : enemies) {
+        enemy.update(getHeight(), getWidth());
+
+        if (player.getBounds().intersects(enemy.getBounds())) {
+            gameOver = true;
+            timer.stop();
+        }
+    }
+
+    repaint();
+}
+
 
     @Override
     protected void paintComponent(Graphics g) {

@@ -11,6 +11,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
     boolean leftPressed = false;
     boolean rightPressed = false;
+    boolean gameOver = false;
 
     public GamePanel() {
         setPreferredSize(new Dimension(600, 400));
@@ -31,6 +32,10 @@ public class GamePanel extends JPanel implements KeyListener {
     }
 
     private void update() {
+        if (gameOver) {
+            return;
+        }
+
         if (leftPressed) {
             player.moveLeft();
         }
@@ -40,6 +45,12 @@ public class GamePanel extends JPanel implements KeyListener {
 
         for (Enemy enemy : enemies) {
             enemy.update(getHeight(), getWidth());
+
+            // COLLISION CHECK
+            if (player.getBounds().intersects(enemy.getBounds())) {
+                gameOver = true;
+                timer.stop();
+            }
         }
 
         repaint();
@@ -50,10 +61,19 @@ public class GamePanel extends JPanel implements KeyListener {
         super.paintComponent(g);
 
         player.draw(g);
-
         for (Enemy enemy : enemies) {
             enemy.draw(g);
         }
+
+        if (gameOver) {
+            drawGameOver(g);
+        }
+    }
+
+    private void drawGameOver(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 36));
+        g.drawString("GAME OVER", 180, 200);
     }
 
     // Keyboard input

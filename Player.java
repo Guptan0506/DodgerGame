@@ -4,7 +4,7 @@ public class Player {
     int x, y;
     int width = 40;
     int height = 40;
-    int speed = 5;   // how fast the player moves
+    int speed = 5;
 
     public Player(int x, int y) {
         this.x = x;
@@ -13,9 +13,7 @@ public class Player {
 
     public void moveLeft() {
         x -= speed;
-        if (x < 0) {
-            x = 0;
-        }
+        if (x < 0) x = 0;
     }
 
     public void moveRight(int panelWidth) {
@@ -25,9 +23,12 @@ public class Player {
         }
     }
 
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, width, height);
+    }
+
     public void draw(Graphics g) {
         g.setColor(Color.GREEN);
         g.fillRect(x, y, width, height);
     }
 }
-
